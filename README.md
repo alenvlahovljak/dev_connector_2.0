@@ -321,7 +321,7 @@ $env:NODE_ENV="production"
 node server.js
 ```
 
-Check in browser on [http://localhost:5000/](http://localhost:5000/)
+Check in browser on [http://localhost:5000/](http://localhost:8000/)
 
 ### Deploy to Heroku
 

@@ -29,18 +29,25 @@ jobs:
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::new-output name=dir::$(yarn cache dir)"
-
-      - name: Install dependencies
         run: |
-          echo "YARN CACHE CHANGED"
-          yarn --prefer-offline
-        if: |
-          steps.cache-yarn-cache.outputs.cache-hit != 'true' ||
-          steps.cache-node-modules.outputs.cache-hit != 'true'
+          echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Cache dependencies
+      - name: Set yarn global bin path
+        run: |
+          yarn config set prefix $(yarn cache dir)
+
+      - name: Add yarn bin path to system path
+        run: |
+          echo $(yarn global bin) >> $GITHUB_PATH
+
+      - name: Set yarn global installation path
+        run: |
+          yarn config set global-folder $(yarn cache dir)
+
+      - name: CACHE ACTION
         uses: actions/cache@v2
+        env:
+          cache-version: v1
         id: yarn-cache
         with:
           path: |
@@ -51,6 +58,12 @@ jobs:
             ${{ runner.os }}-yarn-${{ env.cache-version }}-
             ${{ runner.os }}-yarn-
             ${{ runner.os }}-
+
+      - name: Installing dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: |
+          echo "YARN CACHE CHANGED"
+          yarn install
 
       - name: Build
         run: yarn build

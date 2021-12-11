@@ -27,6 +27,7 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
 
+      - run: yarn install
       - run: yarn build
       - uses: actions/cache@v2
         id: restore-build

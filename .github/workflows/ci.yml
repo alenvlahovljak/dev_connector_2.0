@@ -70,20 +70,26 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: CACHE ACTION
-        uses: actions/cache@v2
-        env:
-          cache-version: v1
-        id: yarn-cache
+      - uses: actions/cache@v2
+        id: restore-build
         with:
-          path: |
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
-            **/node_modules
-          key: ${{ runner.os }}-yarn-${{ env.cache-version }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-${{ env.cache-version }}-
-            ${{ runner.os }}-yarn-
-            ${{ runner.os }}-
+          path: ./*
+          key: ${{ github.sha }}
+        - run: yarn start
+#      - name: CACHE ACTION
+#        uses: actions/cache@v2
+#        env:
+#          cache-version: v1
+#        id: yarn-cache
+#        with:
+#          path: |
+#            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+#            **/node_modules
+#          key: ${{ runner.os }}-yarn-${{ env.cache-version }}-${{ hashFiles('**/yarn.lock') }}
+#          restore-keys: |
+#            ${{ runner.os }}-yarn-${{ env.cache-version }}-
+#            ${{ runner.os }}-yarn-
+#            ${{ runner.os }}-
 
 #      - name: Start server
 #        run: yarn start

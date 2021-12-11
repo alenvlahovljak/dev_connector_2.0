@@ -46,9 +46,6 @@ jobs:
           steps.cache-yarn-cache.outputs.cache-hit != 'true' ||
           steps.cache-node-modules.outputs.cache-hit != 'true'
 
-      - name: Format code
-        run: yarn format
-
       - name: Build
         run: yarn build ./client
 

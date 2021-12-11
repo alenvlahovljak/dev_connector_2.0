@@ -68,8 +68,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: yarn install
-        run: yarn
+      - name: Start server
+        run: yarn start
+
+      - name: Start client
+        run: yarn client
 
         env:
           CI: true

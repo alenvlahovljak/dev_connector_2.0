@@ -47,7 +47,7 @@ jobs:
           steps.cache-node-modules.outputs.cache-hit != 'true'
 
       - name: Build
-        run: yarn build ./client
+        run: yarn build
 
 
   test:

@@ -75,7 +75,7 @@ jobs:
         with:
           path: ./*
           key: ${{ github.sha }}
-        - run: yarn start
+      - run: yarn start
 #      - name: CACHE ACTION
 #        uses: actions/cache@v2
 #        env:

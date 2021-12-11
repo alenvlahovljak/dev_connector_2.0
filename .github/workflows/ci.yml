@@ -27,22 +27,28 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
 
+      - run: yarn build
       - uses: actions/cache@v2
-        id: yarn-cache
+        id: restore-build
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
-      - name: Installing dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: |
-          echo "YARN CACHE CHANGED"
-          yarn install
-
-      - name: Build
-        run: yarn build
+          path: ./*
+          key: ${{ github.sha }}
+#      - uses: actions/cache@v2
+#        id: yarn-cache
+#        with:
+#          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+#          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+#          restore-keys: |
+#            ${{ runner.os }}-yarn-
+#
+#      - name: Installing dependencies
+#        if: steps.yarn-cache.outputs.cache-hit != 'true'
+#        run: |
+#          echo "YARN CACHE CHANGED"
+#          yarn install
+#
+#      - name: Build
+#        run: yarn build
 
 
   test:
